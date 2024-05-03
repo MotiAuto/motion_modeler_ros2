@@ -7,7 +7,7 @@ use motion_modeler_ros2::Wheel;
 fn main()->Result<(), DynError>
 {
     let ctx = Context::new()?;
-    let node = ctx.create_node("motion_model", None, Default::default())?;
+    let node = ctx.create_node("omni_motion_modeler", None, Default::default())?;
     let mut selector = ctx.create_selector()?;
     let log = Logger::new(node.get_name().unwrap().as_str());
 
