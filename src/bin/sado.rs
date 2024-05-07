@@ -7,7 +7,7 @@ use motion_modeler_ros2::Wheel2;
 fn main()->Result<(), DynError>
 {
     let ctx = Context::new()?;
-    let node = ctx.create_node("sado_motion_modeler", None, Default::default())?;
+    let node = ctx.create_node("sado2rin_motion_modeler", None, Default::default())?;
     let mut selector = ctx.create_selector()?;
     let log = Logger::new(node.get_name().unwrap().as_str());
 
@@ -19,8 +19,8 @@ fn main()->Result<(), DynError>
     Box::new(move |msg|{
         let mut wheel2 = Wheel2::new(0.0, 0.0);
 
-        wheel2.left = (-msg.linear.y) as f32;
-        wheel2.right = (-msg.linear.y) as f32;
+        wheel2.left = (-0.5*msg.linear.y +0.5*msg.angular.z) as f32;
+        wheel2.right = (-0.5*msg.linear.y -0.5*msg.angular.z) as f32;
 
         let mut send_msg = std_msgs::msg::String::new().unwrap();
         send_msg.data = RosString::new(wheel2.serialize().as_str()).unwrap();
@@ -28,7 +28,7 @@ fn main()->Result<(), DynError>
         let _ = publisher.send(&send_msg).unwrap();
     }));
 
-    pr_info!(log, "Start OmniMotionModelerROS2");
+    pr_info!(log, "Start Sado2rinMotionModelerROS2");
 
     loop {
         selector.wait()?;
