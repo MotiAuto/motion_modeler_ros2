@@ -39,3 +39,22 @@ impl OneMotor {
         serde_json::to_string(&self).unwrap()
     }
 }
+
+#[derive(Serialize, Deserialize)]
+pub struct Wheel2
+{
+    pub left:f32,
+    pub right:f32,
+}
+
+impl Wheel2 {
+    pub fn new(left_:f32, right_:f32)->Wheel2
+    {
+        Wheel2{left:left_, right:right_}
+    }
+
+    pub fn serialize(self)->String
+    {
+        serde_json::to_string(&self).unwrap()
+    }
+}
